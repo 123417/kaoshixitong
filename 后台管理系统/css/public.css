@@ -1,0 +1,40 @@
+*{
+    margin:0;
+    padding:0;
+    list-style: none;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+.center{
+    text-align:center;
+}
+.hundred{
+    width:100%;
+    height:100%
+}
+/* input {
+    /* border: none;
+    outline: none; 
+       -webkit-appearance: none;   
+  } */
+body{
+    height:100%;
+}
+.fl{
+    float:left
+}
+.fr{
+    float:right
+}
+.test_box{
+    width:100%;
+    height:600px;
+    position:absolute;
+    top:50%;
+    margin-top:-300px;
+    background:url('../img/bg.jpg') center no-repeat;
+    background-size: 100% 100%;
+}
+.padding-20{
+    padding-left:20px
+}

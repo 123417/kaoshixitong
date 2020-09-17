@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/public.css">
+    <link rel="stylesheet" href="./css/login.min.css">
+    <script src="js/jquery-1.12.2.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.js"></script>
+</head>
+<body>
+    <div class="test_box">
+        <div class="content">
+            <h1 class="center">传智远程考试系统欢迎您</h1>
+            <h4>Welcome to your envoy</h4>
+            <div class="form">
+                <div>
+                    <span>用户名:</span>
+                    <span id="user" style="margin-left:30px"></span>
+                </div>
+                <div>
+                    <span>身份证号:</span>
+                    <span id="userId"  style="margin-left:10px"></span>
+                </div>
+                <input type="button" value="开始考试" class="regBtn" id="regBtn" onclick="start_test()">
+                <input type="button" value="查询成绩" class="regBtn" id="regBtn1" onclick="find_grades()">
+                <input type="button" value="退出考试" class="regBtn" id="outBtn" style="margin-left:160px" onclick="outfn()">
+            </div>
+        </div>
+    </div>
+    <script>
+        //判断是否考过试，考过为查询成绩，没考过开始考试
+        var url='./php/select.php?userId='+window.localStorage.getItem('user_code')
+        axios.get(url).then((res)=>{
+            console.log(res)
+            if(res=='开始考试'){
+                $('#regBtn').show()
+                $('#regBtn1').hide()
+            }else{
+                $('#regBtn1').show()
+                $('#regBtn').hide()
+            } 
+        })
+        $("#userId").html(window.localStorage.getItem('user_code'))
+        if(window.localStorage.getItem('user_code')==''){
+            window.location.href="./login.html"
+        }
+        axios.get("./php/user_info.php?userId="+window.localStorage.getItem('user_code')).then((res)=>{
+            $("#user").html(res)
+        })
+        function outfn(){
+            window.localStorage.setItem('user_code','')
+            window.location.href="./index.html"
+        }
+        function start_test(){
+            axios.get("./php/times.php?userId="+window.localStorage.getItem('user_code')).then((res)=>{
+                if(res=="ok"){
+                    window.location.href="./test.html";
+                }
+            })
+        }
+        function find_grades(){
+            window.location.href='./grade.html'
+        }
+        
+    </script>
+</body>
+</html>

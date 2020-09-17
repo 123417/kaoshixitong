@@ -1,0 +1,62 @@
+.content {
+  width: 500px;
+  height: 300px;
+  margin: 150px auto;
+}
+
+.content h1 {
+  font-weight: 600;
+  color: #333;
+}
+
+.content h4 {
+  width: 100%;
+  padding-left: 75px;
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+.content .form {
+  width: 100%;
+  padding-top: 20px;
+  padding-left: 75px;
+}
+
+.content .form div {
+  margin-bottom: 20px;
+}
+
+.content .form div span {
+  font-weight: 600;
+}
+
+.content .form div input {
+  display: inline-block;
+  height: 25px;
+  width: 250px;
+  border: 1px solid #ccc;
+}
+
+.content .form div:nth-child(1) {
+  margin-top: 20px;
+}
+
+.content .form div:nth-child(1) input {
+  margin-left: 30px;
+}
+
+.content .form div:nth-child(2) input {
+  margin-left: 15px;
+}
+
+.content .form div:nth-child(3) input {
+  margin-left: 47px;
+}
+
+.content .form .regBtn {
+  display: inline-block;
+  width: 80px;
+  height: 27px;
+  text-align: center;
+  line-height: 27px;
+}

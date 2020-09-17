@@ -1,0 +1,55 @@
+.content{
+    width:500px;
+    height:300px;
+    margin:150px auto;
+    h1{
+        font-weight:600;
+        color:#333
+    }
+    h4{
+        width:100%;
+        padding-left:75px;
+        margin-top:10px;
+        font-size:18px
+    }
+    .form{
+        width:100%;
+        padding-top:20px;
+        padding-left:75px;
+        div{
+            margin-bottom:20px;
+            span{
+                font-weight:600;
+            }
+            input{
+                display:inline-block;
+                height:25px;
+                width:250px;
+                border:1px solid #ccc;
+            }
+        }
+        div:nth-child(1){
+            margin-top:20px;
+            input{
+                margin-left:30px
+            }
+        }
+        div:nth-child(2){
+            input{
+                margin-left:60px
+            }
+        }
+        div:nth-child(3){
+            input{
+                margin-left:47px
+            }
+        }
+        .regBtn{
+            display:inline-block;
+            width:80px;
+            height:27px;
+            text-align:center;
+            line-height: 27px;
+        }
+    }
+}

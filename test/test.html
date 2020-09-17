@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/public.css">
+    <link rel="stylesheet" href="./css/test.min.css">
+    <link rel="stylesheet" href="./font/css/font-awesome.min.css">
+    <!-- <link rel="stylesheet" href="./font-新版本/css/fontawesome.min.css"> -->
+    <script src="js/jquery-1.12.2.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.js"></script>
+</head>
+<body>
+    <div class="box hundred" id="app">
+        <div class="header">
+            <div class="header-l">传智远程考试系统</div>
+            <div class="header-r">
+                <div class="header-r-time fl">
+                    剩余：<span class="fa fa-clock"></span><span id="times"></span>
+                </div>
+                <div class="header-r-user fr">
+                    <span>
+                        <span class="fa fa-user-circle"></span>
+                        <span id="users"></span>
+                    </span>
+                    <span onclick="layout()">
+                        <span class="fa fa-power-off"></span>
+                        &nbsp;退出
+                    </span>    
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class='main-l'>
+                <h4 class="center">答题选项卡</h4>
+                <ul>
+                    <button v-for="num in Number(max_nums) " :disabled="num>num__self_max" @click="select_title(num)">{{num}}</button>
+                </ul>
+            </div>
+            <div class="main-r">
+                <div class="main-r-item">
+                    <div class="main-r-item-state">
+                        答题的状态：{{title_massage}}
+                    </div>
+                    <div class="main-r-item-ti">
+                        <p class="main-r-item-ti-p1">
+                            <span>{{datas.title_num}}、</span>
+                            <span>{{datas.titles}}</span>
+                        </p>
+                        <ul v-show="datas.item_type=='单选题'">
+                            <li>
+                                <input type="radio" value="A" name="radio" v-model="radios" ><span>{{datas.A}}</span>   
+                            </li>
+                            <li>
+                                <input type="radio" value="B" name="radio" v-model="radios"><span>{{datas.B}}</span>
+                            </li>
+                            <li v-show="!datas.C==''">
+                                <input type="radio" value="C" name="radio" v-model="radios"><span>{{datas.C}}</span>
+                            </li>
+                            <li v-show="!datas.D==''">
+                                <input type="radio" value="D" name="radio" v-model="radios"><span>{{datas.D}}</span>
+                            </li>
+                        </ul>
+                        <ul v-show="datas.item_type=='多选题'">
+                            <li>
+                                <input type="checkbox" value="A" name="checkbox" v-model="checkbox"><span>{{datas.A}}</span>   
+                            </li>
+                            <li>
+                                <input type="checkbox" value="B" name="checkbox" v-model="checkbox"><span>{{datas.B}}</span>
+                            </li>
+                            <li>
+                                <input type="checkbox" value="C" name="checkbox" v-model="checkbox"><span>{{datas.C}}</span>
+                            </li>
+                            <li>
+                                <input type="checkbox" value="D" name="checkbox" v-model="checkbox"><span>{{datas.D}}</span>
+                            </li>
+                        </ul>
+                        <!-- <ul v-show="datas.item_type=='判断题'">
+                            <li>
+                                <input type="radio" value="A" name="radio" v-model="radios_pan"><span>{{datas.A}}</span>   
+                            </li>
+                            <li>
+                                <input type="radio" value="B" name="radio" v-model="radios_pan"><span>{{datas.B}}</span>
+                            </li>
+                        </ul> -->
+                    </div>
+                    <div class="main-r-item-btn">
+                        <input type="button" value="上一题" @click="preTitle" :disabled="pre_btn">
+                        <input type="button" value="下一题" @click="nextTitle" :disabled="next_btn">
+                        <input type="button" value="交卷" @click="submit_title">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    if(window.localStorage.getItem('user_code')==''){
+        window.location.href='./grade.html'
+    }
+    // 后台来控制定时器
+    // setInterval(function(){
+    //     axios.get('./php/test_time.php?userId='+window.localStorage.getItem('user_code')).then((res)=>{
+    //         $("#times").text(res)
+    //     },1000)
+    // })
+    //js来控制定时器
+    axios.get('./php/js_times.php?userId='+window.localStorage.getItem('user_code')).then((res)=>{
+        lastTime=1000*res 
+    })
+    var time_stop=setInterval(function(){
+        var times=new Date().getTime();
+        var shi=Math.floor((lastTime-times)/1000/3600);
+        var fen=Math.floor((lastTime-times)/1000%3600/60);
+        var miao=Math.floor((lastTime-times)/1000%60);
+        $("#times").text(shi+'小时'+fen+"分钟"+miao+"秒")
+        if(miao<=0 && fen<=0 && shi<=0){
+            clearInterval(time_stop)
+            window.location.href="./grade.html"
+        }
+    },1000)
+    axios.get('./php/js_times.php?userName=aaa&userId='+window.localStorage.getItem('user_code')).then((res)=>{
+        $("#users").html(res)
+    })
+    function layout(){
+        window.location.href="./login.html"
+    }
+    new Vue({
+        el:"#app",
+        data:{
+            datas:'',
+            next_btn:false,
+            pre_btn:true,
+            title_num:1,
+            max_nums:4,
+            title_massage:'未达答案',
+            radios:'',
+            checkbox:[],
+            num__self_max:0,
+            radios_pan:''
+        },
+        mounted(){
+            this.axiosfn()
+            this.max_num()
+            this.baocunshuju()
+            this.num_selfs()
+        },
+        watch:{
+            
+        },
+        methods:{
+            //考试题数最大值
+            max_num(){
+                url='./php/max_num.php';
+                axios.get(url).then((res)=>{
+                    console.log(res)
+                    this.max_nums=res
+                })
+            },
+            axiosfn(){
+                axios.get('./php/rand_title.php?userId='+window.localStorage.getItem('user_code')+'&title_id='+this.title_num).then((res)=>{
+                    if(res=="ok"){
+                        this.axiosfn()
+                    }else if(res=="no"){
+                        this.next_btn=true;
+                        return 
+                    }else{
+                        this.num_selfs()
+                        this.datas=res ;
+                        this.title_num=res.title_num;
+                    }
+                })
+                // this.$forceUpdate()
+            },
+            //保存已经答完题的数据
+            baocunshuju(){
+                url='./php/test.php?userId='+window.localStorage.getItem('user_code')+'&nums='+this.title_num;
+                axios.get(url).then((res)=>{
+                    console.log('第'+this.title_num+'题'+'答案是'+res)
+                    if(res=='empty'){
+                        this.radios=''
+                        this.checkbox=[]
+                    }else{
+                        this.radios=res
+                        this.checkbox=res.split(',')
+                        console.log(this.radios)
+                    } 
+                    // this.$forceUpdate()
+                })
+            },
+            // 提交答案
+            action_answer(){
+                var val='';
+                if(this.datas.item_type=='单选题' || this.datas.item_type=='判断题'){
+                    // console.log($("input[name='radio']:checked").val())
+                    val=$("input[name='radio']:checked").val()
+                }else{
+                    var str=''
+                    $("input[name='checkbox']:checked").each(function(i,el){
+                        str=str+','+$(el).val()
+                    })
+                    val=str.slice(1)
+                }
+                // console.log(val)
+                // console.log(this.datas.title_num)
+                // console.log(this.title_num)
+                var url='./php/tijiao.php?userId='+window.localStorage.getItem('user_code')+'&nums='+this.title_num+'&res='+val;
+                axios.get(url).then((res)=>{
+                    // console.log(res)
+                    if(res=='ok'){
+                        this.title_massage='提交答案';
+                    }else{
+                        this.title_massage='更新答案';
+                    }
+                })
+            },
+            nextTitle(){
+                this.action_answer()
+                this.title_num=Math.floor(this.title_num)+1
+                var abc=this.title_num
+                this.baocunshuju()
+                
+                // this.$forceUpdate()//强制刷新
+                if(this.title_num>=this.max_nums){
+                    this.title_num=this.max_nums
+                    this.next_btn=true;
+                }else{
+                    this.next_btn=false;
+                }
+                this.pre_btn=false;
+                this.axiosfn()
+            },
+            preTitle(){
+                this.action_answer()
+                this.title_num=Math.floor(this.title_num)-1
+                var bcd=this.title_num
+
+                // this.$forceUpdate()//强制刷新
+                if(this.title_num<=1){
+                    this.title_num=1
+                    this.pre_btn=true;
+                }else{
+                    this.pre_btn=false;
+                }
+                this.next_btn=false;
+                this.axiosfn()
+                this.baocunshuju()
+                    // this.$forceUpdate()
+            },
+            submit_title(){
+                if(this.title_num==50){
+                    this.action_answer()
+                }
+                if(confirm('您确定要交卷吗？')){
+                    window.location.href='./grade.html'
+                }
+            },
+            num_selfs(){
+                var url='./php/num_self.php?userId='+window.localStorage.getItem('user_code');
+                axios.get(url).then((res)=>{
+                    // console.log(res)
+                    this.num__self_max=res
+                })
+            },
+            select_title(a){
+                var url='./php/select_titles.php?userId='+window.localStorage.getItem('user_code')+'&nums='+a;
+                axios.get(url).then((res)=>{
+                    // console.log(res)
+                    this.datas=res
+                    this.title_num=res.title_num;
+                })
+                this.title_num=a
+                this.baocunshuju()
+                if(this.title_num<=1){
+                    this.next_btn=false;
+                    this.pre_btn=true;
+                }else if(this.title_num>=this.max_nums){
+                    this.next_btn=true;
+                    this.pre_btn=false;
+                }else{
+                    this.next_btn=false;
+                    this.pre_btn=false;
+                }
+            }
+        }
+    })  
+   
+</script>
+</html>

@@ -1,0 +1,122 @@
+html{
+    width:100%;
+    height:100%
+}
+body{
+    width:100%;
+    height:100%
+}
+.header{
+    width:100%;
+    height:13%;
+    background-color: skyblue;
+    .header-l{
+        width:160px;
+        height:100%;
+        line-height: 80px;
+        color:pink;
+        text-align:center;
+        font-size:20px;
+        margin-left:20px;
+        float:left
+    }
+    .header-r{
+        width:500px;
+        height:100%;
+        float:right;
+        div{
+            text-align:center;
+            line-height: 80px;
+        }
+        .header-r-time{
+            width:220px;
+            float:left
+        }
+        .header-r-user{
+            width:200px;
+            float:right
+        }
+    }
+}
+.main{
+    width:100%;
+    height:87%;
+    .main-l{
+        width:15%;
+        height:100%;
+        float: left;
+        border-right:1px solid #eee;
+        overflow: hidden;
+        h4{
+            margin-top:20px
+        }
+        ul{
+            padding-left:10px;
+            margin-top: 10px;
+            button{
+                border:none;
+                outline: none;
+                display:block;
+                width:25px;
+                height:25px;
+                float:left;
+                margin:5px;
+                border-radius:5px;
+                background-color: pink;
+                text-align:center;
+                line-height: 25px;
+                font-size:14px
+            }
+        }
+    }
+    .main-r{
+        width:85%;
+        height:100%;
+        float:left;
+        // margin-left:20px;
+        .main-r-item-state{
+            width:100%;
+            height:60px;
+            border-bottom:1px solid #ccc;
+            text-align: center;
+            line-height:60px;
+            font-size:18px;
+            font-weight:600
+        }
+        .main-r-item-ti-p1{
+            height:60px;
+            line-height:60px;
+            font-weight:600
+        }
+        .main-r-item-ti{
+            margin-left:20px;
+            height:350px;
+            li{
+                height:30px;
+                line-height:30px;
+                span{
+                    margin-left:10px
+                }
+            }
+        }
+        .main-r-item-btn{
+            width:100%;
+            height:100px;
+            border-top:1px solid #ccc;
+            line-height:100px;
+            text-align:right;
+            input{
+                display:inline-block;
+                width:100px;
+                height:30px;
+                border-radius: 5px;
+            }
+            input:nth-child(2){
+                margin:0 20px;
+            }
+            input:last-child{
+                margin-right:20px
+            }
+        }
+    }
+}

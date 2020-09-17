@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h1{
+            text-align: center;margin-top: 160px;margin-right:80px
+        }
+        .grades{
+            position:absolute;
+            left:50%;
+            top:50%;
+            width:400px;
+            height:200px;
+            line-height:40px;
+            margin-top:-100px;
+            box-sizing: border-box;
+            padding-top:30px;
+            margin-left:-200px;
+            background-color: pink;
+            list-style: none;
+            font-weight:600
+        }
+
+    </style>
+    <script src="js/jquery-1.12.2.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.js"></script>
+</head>
+<body>
+    <h1>你的考试成绩结果为：</h1>
+    <ul class="grades">
+        <li><span>姓名：</span><span id="user"></span></li>
+        <li><span>身份证号：</span><span id="userId"></span></li>
+        <li><span>分数：</span><span id="user_grade"></span></li>
+    </ul>
+    <script>
+        if(window.localStorage.getItem('user_code')==''){
+            $('#user').html(window.sessionStorage.getItem('userVal'));
+            $('#userId').html(window.sessionStorage.getItem('userIdVal'));
+            $('#user_grade').html(window.sessionStorage.getItem('user_gradeVal'));
+        }else{
+            url='./php/grade.php?userId='+window.localStorage.getItem('user_code');
+            axios.get(url).then((res)=>{
+                console.log(res)
+                window.sessionStorage.setItem('userVal',res.name)
+                window.sessionStorage.setItem('userIdVal',window.localStorage.getItem('user_code'))
+                window.sessionStorage.setItem('user_gradeVal',res.grades_user)
+                $('#user').html(res.name);
+                $('#userId').html(window.localStorage.getItem('user_code'));
+                $('#user_grade').html(res.grades_user);
+                if(res.grades_user>0){
+                    window.localStorage.setItem('user_code','')
+                }
+            })
+        }
+        
+    </script>
+</body>
+</html>
