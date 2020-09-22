@@ -1,0 +1,8 @@
+.table{ margin: auto; border:1px solid #ccc}
+.table tr{ line-height: 50px; text-align: center;}
+.table tr td:nth-child(1){ width: 120px;}
+
+.table tr td input[type='text']{ width:90%; height: 25px;}
+
+#ms{ height: 60px; text-align: center; line-height: 60px; margin-top: 50px;}
+.submit_box{ width: 200px; height: 40px; margin: auto; line-height: 40px;}

@@ -161,6 +161,7 @@
             },
             axiosfn(){
                 axios.get('./php/rand_title.php?userId='+window.localStorage.getItem('user_code')+'&title_id='+this.title_num).then((res)=>{
+                    console.log(res)
                     if(res=="ok"){
                         this.axiosfn()
                     }else if(res=="no"){

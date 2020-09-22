@@ -1,3 +1,6 @@
+<?php
+    include('./public_test.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -102,6 +105,9 @@
         }
         function resetfn(id){
             let resetVal=prompt("输入你要修改的密码")
+            if(resetVal==null){
+                return false
+            }
             console.log(id)
             $.get('./chongmingm.php?id='+id+'&abc='+resetVal,function(res){
                 if(res=='ok'){

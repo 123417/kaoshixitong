@@ -1,3 +1,6 @@
+<?php
+    include('./public_test.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,6 +42,15 @@
         ?>
         
     </table>
-    
+    <div style="width:100%;height:50px;text-align:center;line-height:50px">
+        <a>导出excel文件</a>
+    </div>
+    <script>
+        var html="<html><head><meta charset='utf-8'></head><body>"+document.getElementsByTagName('table')[0].outerHTML+"</body></html>"
+        var blob=new Blob([html],{type:"application/vnd.ms-excel"})
+        var a=document.getElementsByTagName('a')[0]
+        a.href=URL.createObjectURL(blob)
+        a.download="学生成绩表.xls"
+    </script>
 </body>
 </html>

@@ -1,0 +1,7 @@
+.content{ top: 300px;}
+.content>div:nth-child(1){ font-size: 30px;  height: 50px;}
+.content div:nth-child(2){ font-size: 16px; text-align: left; height: 50px;}
+.user_info div{ height: 50px;}
+.user_info div label{ display: inline-block; width: 90px;}
+.user_info div .user_info_input{ width: 230px; height: 25px;}
+.user_info div .user_info_but{ width: 100px; height: 30px;}

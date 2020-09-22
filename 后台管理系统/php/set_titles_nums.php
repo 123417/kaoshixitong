@@ -1,3 +1,6 @@
+<?php
+    include('./public_test.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

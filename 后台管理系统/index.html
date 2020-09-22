@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css2/public.css">
+    <link rel="stylesheet" href="./css2/login.min.css">
+    <script src="js/jquery-1.12.2.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.js"></script>
+</head>
+<body>
+    <div class="test_box">
+        <div class="content">
+            <h1 class="center">传智远程考试后台管理系统</h1>
+            <h4>Welcome to your envoy</h4>
+            <div class="form">
+                <div>
+                    <span>用户名:</span>
+                    <input type="text" name="userId" placeholder="请输入用户名" id="userId">  
+                </div>
+                <div>
+                    <span>密码:</span>
+                    <input type="password" name="pass" placeholder="请输入密码" id="pass">  
+                </div>
+                <input type="button" value="登录" class="regBtn" id="regBtn">
+            </div>
+        </div>
+    </div>
+    <script>
+        $("#regBtn").click(function(){
+            var userId=$("#userId").val();
+            var pass=$("#pass").val();
+            if(userId==''){
+                alert('身份找号为空')
+                $("#userId").select()
+                return
+            }
+            // 身份证号正则验证
+            // let yanzhengId=/^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/
+            // if(!yanzhengId.test(userId)){
+            //     alert('身份证号格式不正确')
+            //     $("#userId").select()
+            //     return
+            // }
+            if(pass==''){
+                alert('密码为空')
+                $("#pass").select()
+                return
+            }
+            // $.get("./php/reg_check.php?userId="+userId,function(res){
+            //     console.log(res)
+            //     if(res=='ok'){
+            //         $.get("./php/reg.php?user="+user+"&pass="+pass+"&userId="+userId).then((res)=>{
+            //              if(res=="ok"){
+            //                 alert('注册成功')
+            //                 window.location.href="./login.html"
+            //              }
+            //         })
+            //     }else{
+            //         alert('注册失败')
+            //     }
+            // })
+            axios.get("./php/login.php?userId="+userId+"&pass="+pass).then((res)=>{
+                if(res=="ok"){
+                    // alert('登录成功')
+                    window.location.href="main.php?user="+userId
+                }else{
+                    alert("身份证号或密码错误，登陆失败")
+                }
+            })
+        })
+        
+    </script>
+</body>
+</html>
